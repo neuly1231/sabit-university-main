@@ -1,1 +1,1 @@
-# sabit-university-main
+# sabit-university

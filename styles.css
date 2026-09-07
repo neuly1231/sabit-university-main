@@ -1,0 +1,548 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+:root {
+    /* 기본 색상 변수 (Light Theme) */
+    --bg-color: #f4f6f9;
+    --sidebar-bg: #ffffff;
+    --content-bg: #ffffff;
+    --text-main: #333333;
+    --text-sub: #555555;
+    --primary-color: #4a5568;
+    --accent-color: #2d3748;
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+    --shadow-md: 0 8px 30px rgba(0,0,0,0.04);
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --header-bg: #ffffff;
+    --header-text: #2d3748;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--text-main);
+    line-height: 1.7;
+    background-color: var(--bg-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+}
+
+/* 스크롤바 커스텀 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,0.2);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* --- 헤더 스타일 --- */
+header {
+    background-color: var(--header-bg); /* 이 변수가 색상을 결정하도록 수정 */
+    color: var(--header-text);
+    padding: 0 2rem;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    backdrop-filter: blur(10px);
+    /* 기존에 있던 background-color: rgba(255, 255, 255, 0.9); 삭제됨 */
+}
+
+h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--text-main) 0%, var(--text-sub) 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 버튼 공통 스타일 */
+header button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    color: var(--text-sub);
+}
+
+header button:hover {
+    color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+/* 버튼 그룹 컨테이너 */
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem; /* 버튼 사이 간격 */
+}
+
+/* 버전 버튼 (모바일에서는 숨김 처리 선택 사항) */
+.version-button {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    background-color: var(--bg-color) !important;
+    border-radius: 20px;
+    color: var(--text-sub) !important;
+    white-space: nowrap;
+}
+
+/* 설정 버튼 */
+.settings-button {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.settings-button:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+/* 모바일 메뉴 토글 버튼 */
+.mobile-menu-toggle {
+    display: none; /* PC에서는 숨김 */
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--text-sub);
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    /* position: absolute 제거됨 - flex 흐름 따름 */
+}
+
+/* 반응형 처리 */
+@media (max-width: 900px) {
+    .mobile-menu-toggle {
+        display: flex; /* 모바일에서 보임 */
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* 화면이 너무 좁을 때 버전 정보는 숨기고 싶다면 아래 주석 해제 */
+    /*
+    .version-button {
+        display: none;
+    }
+    */
+}
+/* --- 레이아웃 --- */
+.content-wrapper {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: calc(100vh - 70px);
+}
+
+/* --- 사이드바 --- */
+.sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.toc-section {
+    margin-bottom: 2rem;
+}
+
+.toc-header {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--text-sub);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-left: 12px;
+    opacity: 0.7;
+    letter-spacing: 0.5px;
+}
+
+.toc ul {
+    list-style: none;
+}
+
+.toc li {
+    margin-bottom: 4px;
+}
+
+.toc a {
+    display: block;
+    padding: 10px 16px;
+    color: var(--text-sub);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.toc a:hover {
+    background-color: rgba(0,0,0,0.03);
+    color: var(--primary-color);
+}
+
+.toc a.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* --- 메인 콘텐츠 --- */
+.main-content {
+    flex: 1;
+    min-width: 0; /* flex 자식 넘침 방지 */
+}
+
+/* 섹션 카드 스타일 */
+.doc-section {
+    background-color: var(--content-bg);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+    scroll-margin-top: 100px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.doc-section:hover {
+    box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+}
+
+/* 하이라이트 효과 */
+.doc-section.highlight {
+    animation: pulseHighlight 1.5s ease;
+    border-color: var(--primary-color);
+}
+
+@keyframes pulseHighlight {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.01); box-shadow: 0 0 0 4px rgba(0,0,0,0.05); }
+    100% { transform: scale(1); }
+}
+
+.doc-section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-main);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+}
+
+.content {
+    font-size: 1rem;
+    color: var(--text-sub);
+    word-break: keep-all;
+}
+
+.content.collapsed {
+    display: none;
+}
+
+.toggle-icon {
+    font-size: 0.8rem;
+    color: var(--text-sub);
+    opacity: 0.5;
+    transition: transform 0.3s;
+}
+
+/* --- 모달 공통 --- */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.settings-modal, .update-modal {
+    background: var(--content-bg);
+    padding: 2rem;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: var(--text-main);
+}
+
+.modal-overlay.active .settings-modal, 
+.modal-overlay.active .update-modal {
+    transform: scale(1);
+}
+
+.modal-header, .update-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-title, .update-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-sub);
+}
+
+/* 테마 버튼 그리드 */
+.theme-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.theme-button {
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: var(--bg-color);
+    color: var(--text-sub);
+}
+
+.theme-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.theme-button.active {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    background-color: rgba(0,0,0,0.03);
+}
+
+/* --- 푸터 --- */
+footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-sub);
+    font-size: 0.9rem;
+    margin-top: 2rem;
+    opacity: 0.7;
+}
+
+/* --- 모바일 반응형 --- */
+.mobile-menu-toggle {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .content-wrapper {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 280px;
+        height: 100vh;
+        max-height: none;
+        background-color: var(--sidebar-bg);
+        z-index: 300;
+        padding: 2rem;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        border-right: none;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+        font-size: 1.4rem;
+        color: var(--text-main);
+    }
+    
+    header {
+        padding: 0 1.5rem;
+    }
+
+    .doc-section {
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .toc a.active {
+        background-color: var(--primary-color); /* 모바일에서도 active 색상 유지 */
+    }
+}
+
+/* --------------------------------------------------------
+   🎨 테마별 색상 팔레트 정의 (Modern Color Palettes)
+   -------------------------------------------------------- */
+
+/* 1. Dark Theme (Deep Gray & Blue) - 수정됨 */
+body.theme-dark {
+    --bg-color: #121212;
+    --content-bg: #1e1e1e;
+    --sidebar-bg: #1e1e1e;
+    --text-main: #ffffff;      /* 메인 텍스트 완전 흰색 */
+    --text-sub: #cccccc;       /* 서브 텍스트 밝은 회색으로 변경 */
+    --primary-color: #64b5f6;
+    --border-color: #333333;
+    --header-bg: #1e1e1e;       /* 헤더 배경 완전 불투명 다크 */
+    --header-text: #ffffff;    /* 헤더 텍스트 흰색 */
+    --shadow-md: 0 8px 30px rgba(0,0,0,0.5);
+}
+
+/* 다크모드 타이틀: 그라데이션 제거 및 흰색 적용 */
+body.theme-dark h1 {
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    -webkit-text-fill-color: initial;
+    color: #ffffff;
+}
+
+/* 다크모드 헤더 아이콘 및 버튼 흰색 강제 적용 */
+body.theme-dark header button,
+body.theme-dark .mobile-menu-toggle,
+body.theme-dark .settings-button {
+    color: #ffffff !important;
+}
+
+/* 다크모드 버전 버튼 스타일 */
+body.theme-dark .version-button {
+    background-color: #333333 !important; /* 버튼 배경을 조금 더 밝게 하여 구분 */
+    color: #ffffff !important;
+    border: 1px solid #444;
+}
+
+/* 다크모드 스크롤바 */
+body.theme-dark ::-webkit-scrollbar-thumb {
+    background: #464646 !important;
+}
+
+/* 2. Pink Theme (Soft Peach & Rose) */
+body.theme-pink {
+    --bg-color: #fff0f3;
+    --content-bg: #ffffff;
+    --sidebar-bg: #fff5f7;
+    --text-main: #5e3a45;
+    --text-sub: #8c6b75;
+    --primary-color: #d66989;
+    --border-color: #f8d7da;
+    --header-bg: rgba(255, 255, 255, 0.9);
+    --header-text: #5e3a45;
+}
+body.theme-pink .toc a.active {
+    background-color: #ffb7c5;
+    color: #5e3a45;
+}
+body.theme-pink h1 {
+    background: linear-gradient(135deg, #d66989 0%, #ffb7c5 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 3. Avocado Theme (Sage & Earthy) */
+body.theme-avocado {
+    --bg-color: #f0f7f0;
+    --content-bg: #ffffff;
+    --sidebar-bg: #f7fbf7;
+    --text-main: #3a4a3a;
+    --text-sub: #6c7c6c;
+    --primary-color: #789975;
+    --border-color: #dcebdc;
+    --header-bg: rgba(255, 255, 255, 0.9);
+    --header-text: #3a4a3a;
+}
+body.theme-avocado .toc a.active {
+    background-color: #9cbfa7;
+    color: #fff;
+}
+body.theme-avocado h1 {
+    background: linear-gradient(135deg, #4a6b47 0%, #8db588 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 4. Ocean Theme (Calm Blue & Teal) */
+body.theme-ocean {
+    --bg-color: #ebf8ff;
+    --content-bg: #ffffff;
+    --sidebar-bg: #f5fbff;
+    --text-main: #2a4365;
+    --text-sub: #587291;
+    --primary-color: #4299e1;
+    --border-color: #bee3f8;
+    --header-bg: rgba(255, 255, 255, 0.9);
+    --header-text: #2b6cb0;
+}
+body.theme-ocean .toc a.active {
+    background-color: #63b3ed;
+    color: #fff;
+}
+body.theme-ocean h1 {
+    background: linear-gradient(135deg, #2b6cb0 0%, #63b3ed 100%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
